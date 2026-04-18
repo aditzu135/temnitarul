@@ -1,0 +1,215 @@
+:root {
+  color-scheme: dark;
+  --bg: #101318;
+  --panel: #18232f;
+  --panel-strong: #1f2f3e;
+  --text: #f4f7fb;
+  --muted: #8fa3b1;
+  --primary: #6b9cff;
+  --secondary: #4f6a88;
+  --danger: #e07a5f;
+  --success: #7bc47f;
+  --border: rgba(255,255,255,0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #2b3b56 0%, #101318 55%, #090d12 100%);
+  color: var(--text);
+  font-family: Inter, system-ui, sans-serif;
+}
+
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.12);
+  border-radius: 999px;
+}
+
+.app-shell {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.4rem;
+}
+
+.subtitle {
+  margin: 8px auto 0;
+  max-width: 720px;
+  color: var(--muted);
+}
+
+.panel {
+  background: rgba(20, 30, 42, 0.95);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+.status-grid,
+.combat-status,
+.shop-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.status-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-bottom: 24px;
+}
+
+.combat-status {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-bottom: 18px;
+}
+
+.combat-card,
+.status-block {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.actions button {
+  min-width: 140px;
+}
+
+button {
+  border: none;
+  border-radius: 999px;
+  padding: 14px 22px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button.primary {
+  background: linear-gradient(135deg, var(--primary), #5e84ff);
+  color: white;
+}
+
+button.secondary {
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.input-group {
+  display: grid;
+  gap: 8px;
+  margin: 18px 0;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+}
+
+textarea,
+select,
+input {
+  font: inherit;
+}
+
+.combat-log {
+  min-height: 160px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 14px;
+  padding: 18px;
+  overflow-y: auto;
+  border: 1px solid rgba(255,255,255,0.08);
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.shop-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-bottom: 18px;
+}
+
+.shop-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.shop-card h4 {
+  margin: 0 0 8px;
+}
+
+.shop-card p {
+  margin: 0 0 12px;
+  color: var(--muted);
+}
+
+.shop-card small {
+  color: var(--muted);
+}
+
+.shop-card button {
+  width: 100%;
+}
+
+.hint {
+  margin: 0;
+  color: var(--muted);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .panel {
+    padding: 20px;
+  }
+
+  .actions,
+  .status-grid {
+    grid-template-columns: 1fr;
+  }
+}

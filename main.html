@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temnițarul</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header>
+      <h1>Temnițarul</h1>
+      <p class="subtitle">Un RPG text-based — decizii conduse de poveste, ecran cu ecran. Coboară prin 5 etaje ale temniței, luptă cu monștrii, colectează prăzi și înfruntă boss-ul final.</p>
+    </header>
+
+    <main id="app">
+      <section class="screen active" id="screen-login">
+        <div class="panel">
+          <h2>Autentificare</h2>
+          <div class="input-group">
+            <label for="login-username">Nume utilizator</label>
+            <input id="login-username" type="text" placeholder="Nume utilizator">
+          </div>
+          <div class="input-group">
+            <label for="login-password">Parolă</label>
+            <input id="login-password" type="password" placeholder="Parolă">
+          </div>
+          <button id="btn-login" class="primary">Autentificare</button>
+          <button id="btn-signup" class="secondary">Înregistrare</button>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-start">
+        <div class="panel">
+          <h2 id="hub-greeting">Salut [username], ce ai vrea să faci?</h2>
+          <div class="actions">
+            <button id="btn-join-dungeon" class="primary">Intră în Temniță</button>
+            <button id="btn-hub-rest" class="secondary">Odihnește-te</button>
+            <button id="btn-hub-shop" class="secondary">Magazin</button>
+            <button id="btn-logout" class="secondary">Deconectare</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-story">
+        <div class="panel">
+          <h2 id="story-title">Intrarea</h2>
+          <p id="story-text"></p>
+          <button id="btn-story-continue" class="primary">Continuă</button>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-event">
+        <div class="panel">
+          <div class="status-grid">
+            <div class="status-block">
+              <h3>Etaj <span id="display-floor"></span></h3>
+              <p id="event-floor-text"></p>
+            </div>
+            <div class="status-block">
+              <h3>Statistici</h3>
+              <p id="display-hp"></p>
+              <p id="display-attack"></p>
+              <p id="display-defense"></p>
+              <p id="display-xp"></p>
+              <p id="display-gold"></p>
+            </div>
+            <div class="status-block">
+              <h3>Echipament</h3>
+              <p id="display-weapon"></p>
+              <p id="display-armor"></p>
+              <p id="display-inventory"></p>
+            </div>
+          </div>
+          <div class="actions">
+            <button id="btn-fight" class="primary">Luptă</button>
+            <button id="btn-shop" class="secondary">Magazin</button>
+            <button id="btn-rest" class="secondary">Odihnă</button>
+            <button id="btn-equip" class="secondary">Echipează</button>
+            <button id="btn-quit" class="secondary">Ieși din Joc</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-equip">
+        <div class="panel">
+          <h2>Echipează Obiecte</h2>
+          <div id="equip-items" class="shop-grid"></div>
+          <button id="btn-equip-back" class="secondary">Înapoi</button>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-combat">
+        <div class="panel">
+          <h2>Luptă</h2>
+          <div class="status-grid combat-status">
+            <div class="combat-card">
+              <h3>Tu</h3>
+              <p id="combat-player-hp"></p>
+              <p id="combat-player-attack"></p>
+              <p id="combat-player-defense"></p>
+            </div>
+            <div class="combat-card">
+              <h3 id="combat-monster-name"></h3>
+              <p id="combat-monster-hp"></p>
+              <p id="combat-monster-attack"></p>
+              <p id="combat-monster-defense"></p>
+            </div>
+          </div>
+          <div class="combat-log" id="combat-log"></div>
+          <div class="actions combat-actions">
+            <button id="btn-action-attack" class="primary">Atacă</button>
+            <button id="btn-action-item" class="secondary">Folosește Obiect</button>
+            <button id="btn-action-run" class="secondary">Fugi</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-shop">
+        <div class="panel">
+          <h2>Magazin</h2>
+          <div id="shop-items" class="shop-grid"></div>
+          <div class="shop-footer">
+            <button id="btn-shop-back" class="secondary">Înapoi</button>
+            <p class="hint">Magazinele sunt disponibile pe etajele 2 și 4.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-level-up">
+        <div class="panel">
+          <h2>Avansare Nivel!</h2>
+          <p id="level-up-text"></p>
+          <button id="btn-level-up-continue" class="primary">Continuă</button>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-game-over">
+        <div class="panel">
+          <h2>Joc Terminat</h2>
+          <p id="game-over-text"></p>
+          <button id="btn-play-again" class="primary">Joacă Din Nou</button>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-victory">
+        <div class="panel">
+          <h2>Victorie!</h2>
+          <p>Ai învins temnița și ai câștigat răsplata regelui.</p>
+          <div id="victory-stats" class="status-block"></div>
+          <button id="btn-victory-again" class="primary">Joacă Din Nou</button>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="code.js"></script>
+</body>
+</html>
