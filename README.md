@@ -2,7 +2,7 @@
 
 ## Despre Joc
 
-**Crawler Temniță** este un joc RPG text-based inspirat din BitLife, cu decizii conduse de poveste. Jucătorul coboară prin 5 etaje ale unei temnițe antice, luptă cu monștri, colectează pradă și înfruntă boss-ul final. Jocul include elemente de gestionare a inventarului, echipament, cumpărături și leveling.
+**Crawler Temniță** este un joc RPG text-based, cu decizii conduse de poveste. Jucătorul coboară prin 5 etaje ale unei temnițe antice, luptă cu monștri, colectează pradă și înfruntă boss-ul final. Jocul include elemente de gestionare a inventarului, echipament, cumpărături și leveling.
 
 Jocul este scris în HTML, CSS și JavaScript pur, fără server, folosind localStorage pentru salvare.
 
@@ -118,4 +118,3 @@ Jocul este scris în HTML, CSS și JavaScript pur, fără server, folosind local
 4. Bucură-te de joc!
 
 </content>
-<parameter name="filePath">d:\atestat\README.md
