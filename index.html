@@ -119,10 +119,19 @@
       <section class="screen" id="screen-shop">
         <div class="panel">
           <h2>Magazin</h2>
-          <div id="shop-items" class="shop-grid"></div>
+          <div class="shop-sections">
+            <div class="shop-section">
+              <h3>Cumpără</h3>
+              <div id="shop-items" class="shop-grid"></div>
+            </div>
+            <div class="shop-section">
+              <h3>Vinde</h3>
+              <div id="sell-items" class="shop-grid"></div>
+            </div>
+          </div>
           <div class="shop-footer">
             <button id="btn-shop-back" class="secondary">Înapoi</button>
-            <p class="hint">Magazinele sunt disponibile pe etajele 2 și 4.</p>
+            <p class="hint">Magazinele sunt disponibile pe etajele 2 și 4, și în hub.</p>
           </div>
         </div>
       </section>
@@ -140,6 +149,15 @@
           <h2>Joc Terminat</h2>
           <p id="game-over-text"></p>
           <button id="btn-play-again" class="primary">Joacă Din Nou</button>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-death">
+        <div class="panel">
+          <h2>Moarte...</h2>
+          <p>Întunericul te învăluie. Corpul tău cade la pământ, iar sufletul tău se stinge în temnița uitată.</p>
+          <p>Statisticile tale se resetează, dar poți încerca din nou.</p>
+          <button id="btn-death-continue" class="primary">Continuă</button>
         </div>
       </section>
 
