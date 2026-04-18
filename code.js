@@ -36,18 +36,25 @@ const shopInventory = {
   2: [
     { name: 'Sabie de Fier', type: 'Armă', effect: '+5 ATK', cost: 20 },
     { name: 'Scut', type: 'Armură', effect: '+3 DEF', cost: 15 },
-    { name: 'Poțiune de Sănătate', type: 'Consumabil', effect: 'Restaurează 20 HP', cost: 10 }
+    { name: 'Poțiune de Sănătate', type: 'Consumabil', effect: 'Restaurează 20 HP', cost: 10 },
+    { name: 'Sabia Adi', type: 'Armă', effect: '+20 ATK', cost: 200 },
+    { name: 'Zale', type: 'Armură', effect: '+4 DEF', cost: 25 },
+    { name: 'Orb Magic', type: 'Special', effect: 'Cauzează 15 daune fixe', cost: 30 }
   ],
   4: [
     { name: 'Zale', type: 'Armură', effect: '+4 DEF', cost: 25 },
     { name: 'Orb Magic', type: 'Special', effect: 'Cauzează 15 daune fixe', cost: 30 },
-    { name: 'Poțiune de Sănătate', type: 'Consumabil', effect: 'Restaurează 20 HP', cost: 10 }
+    { name: 'Poțiune de Sănătate', type: 'Consumabil', effect: 'Restaurează 20 HP', cost: 10 },
+    { name: 'Sabie de Fier', type: 'Armă', effect: '+5 ATK', cost: 20 },
+    { name: 'Scut', type: 'Armură', effect: '+3 DEF', cost: 15 },
+    { name: 'Sabia Adi', type: 'Armă', effect: '+20 ATK', cost: 200 }
   ]
 };
 
 const itemData = {
   'Sabie Ruginită': { type: 'Armă', value: 2, effect: '+2 ATK' },
   'Sabie de Fier': { type: 'Armă', value: 5, effect: '+5 ATK' },
+  'Sabia Adi': { type: 'Armă', value: 20, effect: '+20 ATK' },
   'Poțiune de Sănătate': { type: 'Consumabil', effect: 'Restaurează 20 HP' },
   Scut: { type: 'Armură', value: 3, effect: '+3 DEF' },
   Zale: { type: 'Armură', value: 4, effect: '+4 DEF' },
@@ -64,6 +71,7 @@ const ui = {
   screenEquip: document.getElementById('screen-equip'),
   screenLevelUp: document.getElementById('screen-level-up'),
   screenGameOver: document.getElementById('screen-game-over'),
+  screenDeath: document.getElementById('screen-death'),
   screenVictory: document.getElementById('screen-victory'),
   loginUsername: document.getElementById('login-username'),
   loginPassword: document.getElementById('login-password'),
@@ -87,6 +95,7 @@ const ui = {
   btnActionRun: document.getElementById('btn-action-run'),
   btnLevelUpContinue: document.getElementById('btn-level-up-continue'),
   btnPlayAgain: document.getElementById('btn-play-again'),
+  btnDeathContinue: document.getElementById('btn-death-continue'),
   btnVictoryAgain: document.getElementById('btn-victory-again'),
   storyTitle: document.getElementById('story-title'),
   storyText: document.getElementById('story-text'),
@@ -109,6 +118,7 @@ const ui = {
   combatMonsterDefense: document.getElementById('combat-monster-defense'),
   combatLog: document.getElementById('combat-log'),
   shopItems: document.getElementById('shop-items'),
+  sellItems: document.getElementById('sell-items'),
   equipItems: document.getElementById('equip-items'),
   levelUpText: document.getElementById('level-up-text'),
   gameOverText: document.getElementById('game-over-text'),
@@ -398,6 +408,7 @@ function equipItem(itemName) {
     }
   }
   saveGame();
+  updatePlayerDisplay();
   showEquipScreen();
 }
 
@@ -409,26 +420,50 @@ function showCombatScreen() {
 function showShopScreen() {
   changeScreen('screen-shop');
   ui.shopItems.innerHTML = '';
+  ui.sellItems.innerHTML = '';
   const items = isHubShop ? shopInventory[2] : shopInventory[player.floor] || [];
   if (!items.length) {
     ui.shopItems.innerHTML = '<p class="hint">Magazinul este gol.</p>';
-    return;
+  } else {
+    items.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'shop-card';
+      card.innerHTML = `
+        <h4>${item.name}</h4>
+        <p>${item.effect}</p>
+        <small>${item.type} • ${item.cost}a</small>
+      `;
+      const button = document.createElement('button');
+      button.textContent = `Cumpără (${item.cost}a)`;
+      button.disabled = player.gold < item.cost || player.inventory.length >= 5 && item.type !== 'Armă' && item.type !== 'Armură';
+      button.addEventListener('click', () => buyItem(item));
+      card.appendChild(button);
+      ui.shopItems.appendChild(card);
+    });
   }
-  items.forEach(item => {
-    const card = document.createElement('div');
-    card.className = 'shop-card';
-    card.innerHTML = `
-      <h4>${item.name}</h4>
-      <p>${item.effect}</p>
-      <small>${item.type} • ${item.cost}a</small>
-    `;
-    const button = document.createElement('button');
-    button.textContent = `Cumpără (${item.cost}a)`;
-    button.disabled = player.gold < item.cost || player.inventory.length >= 5 && item.type !== 'Armă' && item.type !== 'Armură';
-    button.addEventListener('click', () => buyItem(item));
-    card.appendChild(button);
-    ui.shopItems.appendChild(card);
-  });
+
+  // Sell section
+  if (!player.inventory.length) {
+    ui.sellItems.innerHTML = '<p class="hint">Nu ai obiecte de vândut.</p>';
+  } else {
+    player.inventory.forEach((item, index) => {
+      const data = itemData[item];
+      if (!data) return;
+      const sellPrice = Math.floor((shopInventory[player.floor]?.find(s => s.name === item)?.cost || 10) / 2);
+      const card = document.createElement('div');
+      card.className = 'shop-card';
+      card.innerHTML = `
+        <h4>${item}</h4>
+        <p>${data.effect}</p>
+        <small>${data.type} • ${sellPrice}a</small>
+      `;
+      const button = document.createElement('button');
+      button.textContent = `Vinde (${sellPrice}a)`;
+      button.addEventListener('click', () => sellItem(index, sellPrice));
+      card.appendChild(button);
+      ui.sellItems.appendChild(card);
+    });
+  }
 }
 
 function buyItem(item) {
@@ -457,6 +492,15 @@ function buyItem(item) {
     player.inventory.push(item.name);
   }
 
+  saveGame();
+  updatePlayerDisplay();
+  showShopScreen();
+}
+
+function sellItem(index, price) {
+  const item = player.inventory[index];
+  player.inventory.splice(index, 1);
+  player.gold += price;
   saveGame();
   updatePlayerDisplay();
   showShopScreen();
@@ -557,8 +601,10 @@ function monsterAttack() {
 
 function completeCombat(playerWon) {
   if (!playerWon) {
-    ui.gameOverText.textContent = `Ai fost învins de ${currentMonster.name}. Aventura ta se termină aici.`;
-    changeScreen('screen-game-over');
+    // Reset player on death
+    player = initPlayer('Aventurier');
+    saveGame();
+    changeScreen('screen-death');
     return;
   }
 
@@ -697,6 +743,7 @@ ui.btnLevelUpContinue.addEventListener('click', () => {
   showStoryScreen();
 });
 ui.btnPlayAgain.addEventListener('click', endGameReset);
+ui.btnDeathContinue.addEventListener('click', endGameReset);
 ui.btnVictoryAgain.addEventListener('click', endGameReset);
 
 window.addEventListener('load', () => {
